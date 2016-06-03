@@ -5,22 +5,22 @@
  */
 package Controller;
 
-import Logic.Nodo;
-import Logic.Recta;
-import View.Ventana;
+import Logic.Node;
+import Logic.Straight;
+import View.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
  *
- * @author daniel
+ * @author daniel fernando santos bustos
  */
 public class Listener implements ActionListener {
 
-    private Ventana ventana;
+    private Window ventana;
 
-    public Listener(Ventana ventana) {
+    public Listener(Window ventana) {
         this.ventana = ventana;
     }
 
@@ -32,7 +32,7 @@ public class Listener implements ActionListener {
             ventana.getControl().setNodos(new ArrayList<>());
             ventana.getControl().setRectas(new ArrayList<>());
             ventana.getControl().setIntersecciones(new ArrayList<>());
-            ventana.getCaja().repaint();
+            ventana.getComponent().repaint();
             ventana.addMatrix(0);
         } else if (e.getSource() == ventana.getColorear()) {
 
@@ -41,50 +41,49 @@ public class Listener implements ActionListener {
 
         } else if (e.getSource() == ventana.getMatrixAdjacencia()) {
             System.out.println("Matrix de adjacencia");
-            ventana.addMatrix(ventana.getControl().getNodos().size());
+            ventana.addMatrix(ventana.getControl().getNode().size());
         } else {
 
-            int cant_vertices = ventana.getControl().getNodos().size();
+            int cant_vertices = ventana.getControl().getNode().size();
             System.out.println("num Vertices " + cant_vertices);
             for (int i = 0; i < cant_vertices; i++) {
                 for (int j = 0; j < cant_vertices; j++) {
                     if (j != i) {
-                        if (e.getSource().equals(ventana.getMatriz_grafo()[i][j])) {
-                            if (ventana.getMatriz_grafo()[i][j].isSelected()) {
-                                this.ventana.getMatriz_grafo()[j][i].setSelected(true);
+                        if (e.getSource().equals(ventana.getAdjMatrix()[i][j])) {
+                            if (ventana.getAdjMatrix()[i][j].isSelected()) {
+                                this.ventana.getAdjMatrix()[j][i].setSelected(true);
                             } else {
-                                this.ventana.getMatriz_grafo()[j][i].setSelected(false);
+                                this.ventana.getAdjMatrix()[j][i].setSelected(false);
                             }
                         }
                     }
                 }
             }
             colorear();
-
         }
-
     }
 
     public void colorear() {
-        int cant_vertices = ventana.getControl().getNodos().size();
+        int cant_vertices = ventana.getControl().getNode().size();
         ventana.getControl().setIntersecciones(new ArrayList<>());
-        boolean[][] mat = ventana.obtenerMatriz();
-        Nodo origen, destino;
+        boolean[][] mat = ventana.createMatrix();
+        Node origen;
+        Node destino;
 
         ventana.getControl().showNodo();
         ventana.getControl().setRectas(new ArrayList<>());
-        ArrayList<Recta> rectas = new ArrayList<>();
+        ArrayList<Straight> rectas = new ArrayList<>();
         boolean t = false;
         for (int i = 0; i < cant_vertices; i++) {
             origen = ventana.getControl().getNodo(i);
-            ArrayList<Nodo> conectados = new ArrayList<>();
+            ArrayList<Node> conectados = new ArrayList<>();
             for (int j = 0; j < cant_vertices; j++) {
                 if (mat[i][j] && i<j) {
                     System.out.println(i + " " + j + " " + mat[i][j]);
                     destino = ventana.getControl().getNodo(j);
                     conectados.add(destino);
                     origen.setConectados(conectados);
-                    rectas.add(new Recta(origen, destino, ventana.getControl()));
+                    rectas.add(new Straight(origen, destino, ventana.getControl()));
                 }
             }
             ventana.getControl().setRectas(rectas);
@@ -96,17 +95,10 @@ public class Listener implements ActionListener {
         //Si no chocan las rectas
         if (!t) {
             ventana.getControl().setIntersecciones(new ArrayList<>());
-            ///Ahora a dibujar los poligonos
-            
-            //Crear los poligonos
             ventana.getControl().getPoligonos();
-            ventana.getControl().showPoligonos();
-            
-            
         }
         System.out.println("");
-
-        ventana.getCaja().repaint();
+        ventana.getComponent().repaint();
     }
 
 }

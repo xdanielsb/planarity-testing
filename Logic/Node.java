@@ -9,22 +9,15 @@ import java.util.ArrayList;
 
 /**
  *
- * @author daniel
+ * @author daniel fernando santos bustos
  */
-public class Nodo {
+public class Node {
     private int id;
     private double posX;
     private double posyY;
-    private ArrayList<Nodo> conectados;
+    private ArrayList<Node> conectados;
 
-    public Nodo(double posX, double posyY) {
-        this.posX = posX;
-        this.posyY = posyY;
-        conectados = new  ArrayList<>();
-    }
-    
-    
-    public Nodo(int id,double posX, double posyY) {
+    public Node(int id,double posX, double posyY) {
         this.id = id;
         this.posX = posX;
         this.posyY = posyY;
@@ -59,26 +52,14 @@ public class Nodo {
         this.posyY = posyY;
     }
 
-    public ArrayList<Nodo> getConectados() {
+    public ArrayList<Node> getConectados() {
         return conectados;
     }
 
-    public void setConectados(ArrayList<Nodo> conectados) {
+    public void setConectados(ArrayList<Node> conectados) {
         this.conectados = conectados;
     }
 
-    public int tieneHijo(int id) {
-        Nodo get = null;
-        int cont =0;
-        for (int i = 0; i < conectados.size(); i++) {
-            Nodo n = conectados.get(i);
-            if (n.getId() == id) {
-                get = n;
-                cont++;
-            }
-        }
-        System.out.println("nhijos "+cont);
-        return cont;
-    }
+
     
 }
