@@ -37,17 +37,25 @@ public class ComponentPlot extends JComponent implements MouseListener {
         this.g = g;
         Graphics2D draw = (Graphics2D) g;
 
+
         g.setColor(Color.white);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
-        g.setColor(Color.BLACK);
-        plotNodes(g);
-        g.setColor(Color.RED);
-        plotRelations(g);
-        g.setColor(Color.GREEN);
-        plotIntersections(g);
+        
         if (control.getIntersecciones().size() == 0) {
             plotPlanes(g);
         }
+
+        
+        g.setColor(Color.BLACK);
+        plotNodes(g);
+        
+        g.setColor(Color.RED);
+        plotRelations(g);
+        
+        g.setColor(Color.GREEN);
+        plotIntersections(g);
+        
+        
         /*
         g.setColor(Color.BLACK);
         dibujarNodos(g);
@@ -93,10 +101,10 @@ public class ComponentPlot extends JComponent implements MouseListener {
     }
 
     public void plotPlanes(Graphics g) {
-        int o = 8;
+        
         ArrayList<Polygon> inter = control.getSidesPolinomio();
         Color arry[] = {Color.PINK, Color.CYAN, Color.YELLOW, Color.ORANGE, Color.green
-        , Color.MAGENTA,Color.cyan};
+        , Color.MAGENTA,Color.BLUE, Color.LIGHT_GRAY, Color.RED};
         for (int i = 0; i < inter.size(); i++) {
             Random r = new Random();
             int n = r.nextInt((arry.length) );
