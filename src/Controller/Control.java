@@ -40,15 +40,12 @@ public class Control {
         window = new Window(this);
     }
 
-    public ArrayList<Node> getNode() {
-        return nodes;
-    }
-
-    public void setNodos(ArrayList<Node> nodos) {
-        this.nodes = nodos;
-    }
-
-    public Node getNodo(int id) {
+   /**
+    * Get the Nodo based on its id
+    * @param id
+    * @return 
+    */
+    public Node getNode(int id) {
         Node get = null;
         for (int i = 0; i < nodes.size(); i++) {
             Node n = nodes.get(i);
@@ -59,36 +56,37 @@ public class Control {
         return get;
     }
 
-    public void showNodo() {
+    /**
+     * Show  the nodes of the graph
+     */
+    public void showNode() {
         for (int i = 0; i < nodes.size(); i++) {
             nodes.get(i).getId();
             System.out.println("id: " + nodes.get(i).getId());
         }
     }
-
-    public void showRectas() {
+    /**
+     * Show the straight of the graph
+     */
+    public void showStraights() {
         for (int i = 0; i < straights.size(); i++) {
             System.out.println(straights.get(i).getOrigin().getId() + " " + straights.get(i).getDestination().getId());
         }
     }
-
-    public ArrayList<Straight> getRectas() {
-        return straights;
-    }
-
-    public void setRectas(ArrayList<Straight> rectas) {
-        this.straights = rectas;
-    }
-
-    public ArrayList<Node> getIntersecciones() {
-        return intersections;
-    }
-
-    public void setIntersecciones(ArrayList<Node> intersecciones) {
+    
+    /**
+     * 
+     * @param intersecciones 
+     */
+    public void setIntersections(ArrayList<Node> intersecciones) {
         this.intersections = intersecciones;
     }
 
-    public boolean chocan() {
+    /**
+     * This method help me to know wheter straights collide
+     * @return bool
+     */
+    public boolean straightCollide() {
         boolean chocan = false;
         System.out.println(straights.size());
         for (int i = 0; i < straights.size(); i++) {
@@ -96,7 +94,6 @@ public class Control {
             for (int j = 0; j < straights.size(); j++) {
                 Straight destino = straights.get(j);
                 if (origen != destino && origen.collide(destino)) {
-                    //System.out.println("Las rectas chocan");
                     chocan = true;
                 }
             }
@@ -104,12 +101,16 @@ public class Control {
         return chocan;
     }
 
+    /**
+     * Get the poligonos of the graph
+     * @return 
+     */
     public ArrayList<Polygon> getPoligonos() {
         ArrayList<Node> nodos = window.getControl().getNode();
         for (int j = 0; j < nodos.size(); j++) {
             Node aux = nodos.get(j);
             System.out.print(aux.getId() + " ->");
-            ArrayList<Node> amigos = aux.getConectados();
+            ArrayList<Node> amigos = aux.getLinkedNodes();
             for (int k = 0; k < amigos.size(); k++) {
                 Node amigo = amigos.get(k);
                 System.out.print(amigo.getId() + " ");
@@ -118,77 +119,25 @@ public class Control {
         }
         polygons = new ArrayList<>();
         ArrayList<Node> lista = new ArrayList<>();
-        crearPoligono(nodos.get(0), lista);
+        createPolygon(nodos.get(0), lista);
         return polygons;
     }
 
-    public void crearPoligono(Node inicio, ArrayList<Node> recorridos) {
-        getCiclos(window.createMatrix(), getNodes());
+    /**
+     * Create the poligonos based on the cycles of the graph
+     * @param inicio
+     * @param recorridos 
+     */
+    public void createPolygon(Node inicio, ArrayList<Node> recorridos) {
+        getCycles(window.createMatrix(), getNodes());
     }
 
-    public boolean esta(ArrayList<Node> recorridos, Node element) {
-        for (int i = 0; i < recorridos.size(); i++) {
-            if (recorridos.get(i).getId() == element.getId()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean esta(Node element, int desde) {
-        System.out.print("(" + desde + " " + element.getId() + ") ");
-        boolean val = false;
-        for (int i = desde; i < nodes.size(); i++) {
-            ArrayList<Node> nod = nodes.get(i).getConectados();
-            for (int j = 0; j < nod.size(); j++) {
-                // System.out.println("\t"+nod.get(j).getId()+" "+element.getId());
-                if (nod.get(j).getId() == element.getId()) {
-                    val = true;
-                }
-            }
-        }
-        System.out.println("val = " + val);
-        return val;
-    }
-
-    public int coincidencias(ArrayList<Node> l1, ArrayList<Node> l2) {
-        int cont = 0;
-        for (int i = 0; i < l1.size(); i++) {
-            for (int j = 0; j < l2.size(); j++) {
-                if (l1.get(i).getId() == l2.get(j).getId()) {
-                    cont++;
-                }
-            }
-        }
-        return cont;
-    }
-
-    public void crearPoligonoo(Node inicio, ArrayList<Node> recorridos) {
-        ArrayList<Node> nodos = inicio.getConectados(); //Conectados al nodo papa
-        ArrayList<Polygon> poligonos = null;
-        recorridos.add(inicio);
-
-        System.out.println("");
-        //Recorremos los nodos conectados al nodo padre
-        for (int i = 0; i < nodos.size(); i++) {
-            Node aux = nodos.get(i);
-            //Verificamos  que  nodos hijos no se han recorrido
-            if (!esta(recorridos, aux) || recorridos.size() < 2) {
-                recorridos.add(aux);
-                if (esta(aux, recorridos.get(0).getId()) && recorridos.size() > 2) {
-                    poligonos.add(new Polygon(i, (Integer[]) recorridos.toArray()));
-                     break;
-                } else {
-                    crearPoligono(aux, recorridos);
-                }
-            } else {
-                   poligonos.add(new Polygon(i, (Integer[]) recorridos.toArray()));
-                 break;
-            }
-        }
-    }
-
-    public void getCiclos(boolean adjMatrix[][], String nodes[]) {
+    /**
+     * Get cycles of the graph based on its adjcency matrix
+     * @param adjMatrix
+     * @param nodes 
+     */
+    public void getCycles(boolean adjMatrix[][], String nodes[]) {
         ArrayList<Integer[]> elementos = new ArrayList<>();
         hashCicles = new HashMap();
         Ciclos_elementales ecs = new Ciclos_elementales(adjMatrix, nodes);
@@ -212,10 +161,10 @@ public class Control {
             }
         }
 
-        System.out.println("Poligonos");
-        recorrer();
-        recorrerOrder();
-        recorrer();
+
+        iterate();
+        iterateOrderlyPoligons();
+        iterate();
         Set set = hashCicles.entrySet();
         Iterator i = set.iterator();
 
@@ -231,13 +180,13 @@ public class Control {
         }
 
     }
-
-    public void recorrer() {
-
+    /**
+     * Iterate over the polygons
+     */
+    public void iterate() {
         for (int j = 0; j < hashCicles.size(); j++) {
             Set set = hashCicles.entrySet();
             Iterator i = set.iterator();
-
             while (i.hasNext()) {
                 Map.Entry me = (Map.Entry) i.next();
                 if (Duplicate((String) me.getKey())) {
@@ -247,8 +196,11 @@ public class Control {
         }
     }
 
-    public void recorrerOrder() {
-
+    /**
+     * Iterate over the polygons for removing the composed 
+     * Polygons
+     */
+    public void iterateOrderlyPoligons() {
         Set set = hashCicles.entrySet();
         Iterator i = set.iterator();
         HashMap hm2 = new HashMap();
@@ -283,6 +235,10 @@ public class Control {
         return el;
     }
 
+    /**
+     * Get Nodes of the graph
+     * @return nodes 
+     */
     public String[] getNodes() {
         String nodes[] = new String[this.nodes.size()];
         for (int i = 0; i < this.nodes.size(); i++) {
@@ -290,19 +246,47 @@ public class Control {
         }
         return nodes;
     }
-
+    
+    /**
+     * Get the sides of the Poligon
+     * @return 
+     */
     public ArrayList<Polygon> getSidesPolinomio() {
-        ArrayList<Polygon> a = new ArrayList<>();
+        ArrayList<Polygon> poligonos = new ArrayList<>();
         Set set = hashCicles.entrySet();
         // Get an iterator
         Iterator i = set.iterator();
         // Display elements
         while (i.hasNext()) {
             Map.Entry me = (Map.Entry) i.next();
-            Polygon p = new Polygon(a.size() + 1, (Integer[]) me.getValue());
-            a.add(p);
+            Polygon p = new Polygon(poligonos.size() + 1, (Integer[]) me.getValue());
+            poligonos.add(p);
         }
-        return a;
+        return poligonos;
+    }
+    
+    public ArrayList<Node> getNode() {
+        return nodes;
+    }
+
+    public void setNodos(ArrayList<Node> nodos) {
+        this.nodes = nodos;
+    }
+    
+    /**
+     * Get Straight of the graph
+     * @return 
+     */
+    public ArrayList<Straight> getStraights() {
+        return straights;
+    }
+
+    public void setRectas(ArrayList<Straight> rectas) {
+        this.straights = rectas;
+    }
+
+    public ArrayList<Node> getIntersecciones() {
+        return intersections;
     }
 
 }

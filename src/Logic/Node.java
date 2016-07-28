@@ -14,13 +14,13 @@ public class Node {
     private int id;
     private double posX;
     private double posyY;
-    private ArrayList<Node> conectados;
+    private ArrayList<Node> linkedNodes;
 
     public Node(int id,double posX, double posyY) {
         this.id = id;
         this.posX = posX;
         this.posyY = posyY;
-        conectados = new  ArrayList<>();
+        linkedNodes = new  ArrayList<>();
     }
 
     public int getId() {
@@ -51,14 +51,12 @@ public class Node {
         this.posyY = posyY;
     }
 
-    public ArrayList<Node> getConectados() {
-        return conectados;
+    public ArrayList<Node> getLinkedNodes() {
+        return linkedNodes;
     }
 
-    public void setConectados(ArrayList<Node> conectados) {
-        this.conectados = conectados;
+    public void setLinkedNodes(ArrayList<Node> conectados) {
+        this.linkedNodes = conectados;
     }
 
-
-    
 }

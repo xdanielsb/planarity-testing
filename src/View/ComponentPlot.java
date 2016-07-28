@@ -31,6 +31,10 @@ public class ComponentPlot extends JComponent implements MouseListener {
         this.addMouseListener(this);
     }
 
+    /**
+     * Plot the elements in the canvas
+     * @param g 
+     */
     @Override
     public void paint(Graphics g) {
         this.g = g;
@@ -52,17 +56,19 @@ public class ComponentPlot extends JComponent implements MouseListener {
         g.setColor(Color.GREEN);
         plotIntersections(g);
 
-        /*
-        g.setColor(Color.BLACK);
-        dibujarNodos(g);
-        g.setColor(Color.RED);
-        dibujarRelaciones(g);*/
     }
 
+    /**
+     * Clear the canvas when a specific action happens
+     */
     public void Clear() {
         g.clearRect(0, 0, this.getWidth(), this.getHeight());
     }
 
+    /**
+     * Plot The Nodes
+     * @param g 
+     */
     public void plotNodes(Graphics g) {
         ArrayList<Node> nodos = control.getNode();
         for (int i = 0; i < nodos.size(); i++) {
@@ -79,8 +85,12 @@ public class ComponentPlot extends JComponent implements MouseListener {
         }
     }
 
+    /**
+     * Plot the relations -> edges
+     * @param g 
+     */
     public void plotRelations(Graphics g) {
-        ArrayList<Straight> rectas = control.getRectas();
+        ArrayList<Straight> rectas = control.getStraights();
         for (int i = 0; i < rectas.size(); i++) {
             Node origen = rectas.get(i).getOrigin();
             Node destino = rectas.get(i).getDestination();
@@ -88,6 +98,10 @@ public class ComponentPlot extends JComponent implements MouseListener {
         }
     }
 
+    /**
+     * Plot the instersections
+     * @param g 
+     */
     public void plotIntersections(Graphics g) {
         ArrayList<Node> inter = control.getIntersecciones();
         for (int i = 0; i < inter.size(); i++) {
@@ -96,15 +110,15 @@ public class ComponentPlot extends JComponent implements MouseListener {
         }
     }
 
+    /**
+     * Plot the planes
+     * @param g 
+     */
     public void plotPlanes(Graphics g) {
 
         ArrayList<Polygon> inter = control.getSidesPolinomio();
-        Color arry[] = {Color.PINK, Color.CYAN, Color.YELLOW, Color.ORANGE, Color.green, Color.MAGENTA, Color.BLUE, Color.LIGHT_GRAY, Color.RED};
-
-        // for (int i = inter.size()-1; i >=0 ; i--) {
         for (int i = 0; i < inter.size(); i++) {
             Random r = new Random();
-            int n = r.nextInt((arry.length));
             
             int R = (int) (Math.random() * 256);
             int G = (int) (Math.random() * 256);
@@ -117,7 +131,7 @@ public class ComponentPlot extends JComponent implements MouseListener {
             int x[] = new int[tam];
             int y[] = new int[tam];
             for (int j = 0; j < tam; j++) {
-                Node a = control.getNodo(nodes[j]);
+                Node a = control.getNode(nodes[j]);
                 if (a != null) {
                     x[j] = (int) a.getPosX();
                     y[j] = (int) a.getPosyY();

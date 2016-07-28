@@ -17,88 +17,79 @@ import java.util.ArrayList;
  */
 public class Listener implements ActionListener {
 
-    private Window ventana;
+    private Window window;
 
-    public Listener(Window ventana) {
-        this.ventana = ventana;
+    public Listener(Window window) {
+        this.window = window;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == ventana.getBorrarPuntos()) {
-            System.out.println("Borrar Puntos");
-            ventana.getControl().setNodos(new ArrayList<Node>());
-            ventana.getControl().setRectas(new ArrayList<Straight>());
-            ventana.getControl().setIntersecciones(new ArrayList<Node>());
-
-            ventana.getComponent().repaint();
-            ventana.addMatrix(0);
-        } else if (e.getSource() == ventana.getColorear()) {
-
-            System.out.println("Colorear");
-            colorear();
-
-        } else if (e.getSource() == ventana.getMatrixAdjacencia()) {
-            System.out.println("Matrix de adjacencia");
-            ventana.addMatrix(ventana.getControl().getNode().size());
+        if (e.getSource() == window.getBorrarPuntos()) {
+            window.getControl().setNodos(new ArrayList<Node>());
+            window.getControl().setRectas(new ArrayList<Straight>());
+            window.getControl().setIntersections(new ArrayList<Node>());
+            window.getComponent().repaint();
+            window.addMatrix(0);
+        } else if (e.getSource() == window.getMatrixAdjacencia()) {
+            window.addMatrix(window.getControl().getNode().size());
         } else {
-
-            int cant_vertices = ventana.getControl().getNode().size();
+            int cant_vertices = window.getControl().getNode().size();
             System.out.println("num Vertices " + cant_vertices);
             for (int i = 0; i < cant_vertices; i++) {
                 for (int j = 0; j < cant_vertices; j++) {
                     if (j != i) {
-                        if (e.getSource().equals(ventana.getAdjMatrix()[i][j])) {
-                            if (ventana.getAdjMatrix()[i][j].isSelected()) {
-                                this.ventana.getAdjMatrix()[j][i].setSelected(true);
+                        if (e.getSource().equals(window.getAdjMatrix()[i][j])) {
+                            if (window.getAdjMatrix()[i][j].isSelected()) {
+                                this.window.getAdjMatrix()[j][i].setSelected(true);
                             } else {
-                                this.ventana.getAdjMatrix()[j][i].setSelected(false);
+                                this.window.getAdjMatrix()[j][i].setSelected(false);
                             }
                         }
                     }
                 }
             }
-            colorear();
+            colorGraph();
         }
     }
 
-    public void colorear() {
-        int cant_vertices = ventana.getControl().getNode().size();
-        ventana.getControl().setIntersecciones(new ArrayList<Node>());
-        boolean[][] mat = ventana.createMatrix();
+    public void colorGraph() {
+        int cant_vertices = window.getControl().getNode().size();
+        window.getControl().setIntersections(new ArrayList<Node>());
+        boolean[][] mat = window.createMatrix();
         Node origen;
         Node destino;
 
-        ventana.getControl().showNodo();
-        ventana.getControl().setRectas(new ArrayList<Straight>());
+        window.getControl().showNode();
+        window.getControl().setRectas(new ArrayList<Straight>());
         ArrayList<Straight> rectas = new ArrayList<>();
         boolean t = false;
         for (int i = 0; i < cant_vertices; i++) {
-            origen = ventana.getControl().getNodo(i);
+            origen = window.getControl().getNode(i);
             ArrayList<Node> conectados = new ArrayList<>();
             for (int j = 0; j < cant_vertices; j++) {
                 if (mat[i][j] && i < j) {
                     System.out.println(i + " " + j + " " + mat[i][j]);
-                    destino = ventana.getControl().getNodo(j);
+                    destino = window.getControl().getNode(j);
                     conectados.add(destino);
-                    origen.setConectados(conectados);
-                    rectas.add(new Straight(origen, destino, ventana.getControl()));
+                    origen.setLinkedNodes(conectados);
+                    rectas.add(new Straight(origen, destino, window.getControl()));
                 }
             }
-            ventana.getControl().setRectas(rectas);
-            ventana.getControl().showRectas();
-            t = ventana.getControl().chocan();
+            window.getControl().setRectas(rectas);
+            window.getControl().showStraights();
+            t = window.getControl().straightCollide();
             System.out.println(t);
         }
 
         //Si no chocan las rectas
         if (!t) {
-            ventana.getControl().setIntersecciones(new ArrayList<Node>());
-            ventana.getControl().getPoligonos();
+            window.getControl().setIntersections(new ArrayList<Node>());
+            window.getControl().getPoligonos();
         }
         System.out.println("");
-        ventana.getComponent().repaint();
+        window.getComponent().repaint();
     }
 
 }
