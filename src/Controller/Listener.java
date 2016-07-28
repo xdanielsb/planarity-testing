@@ -28,13 +28,13 @@ public class Listener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == window.getBorrarPuntos()) {
+        if (e.getSource() == window.getEraseNodes()) {
             control.setNodos(new ArrayList<Node>());
             control.setRectas(new ArrayList<Straight>());
             control.setIntersections(new ArrayList<Node>());
             window.getComponent().repaint();
             window.addMatrix(0);
-        } else if (e.getSource() == window.getMatrixAdjacencia()) {
+        } else if (e.getSource() == window.getAdjacencyMatriz()) {
             window.addMatrix(window.getControl().getNode().size());
         } else {
             int cant_vertices = window.getControl().getNode().size();
@@ -88,8 +88,8 @@ public class Listener implements ActionListener {
         
         //Si no chocan las rectas
         if (!collideStraights) {
-            window.getControl().setIntersections(new ArrayList<Node>());
-            window.getControl().getPoligonos();
+            control.setIntersections(new ArrayList<Node>());
+            control.getPoligonos();
         }        
         window.getComponent().repaint();
     }

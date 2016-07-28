@@ -25,7 +25,6 @@ public class Window extends JFrame {
 
     private JButton matrixAdjacencia;
     private JButton borrarPuntos;
-    private JButton colorear;
     private ComponentPlot caja;
     private Listener listener;
     private JPanel panel_matriz;
@@ -46,15 +45,14 @@ public class Window extends JFrame {
         this.control = control;
         listener = new Listener(this);
 
-        matrixAdjacencia = new JButton("Matriz de Adjacencia");
-        borrarPuntos = new JButton("borrar puntos");
-        colorear = new JButton("colorear");
+        matrixAdjacencia = new JButton("Adjacency matrix");
+        borrarPuntos = new JButton("Erase Nodes");
+        
         caja = new ComponentPlot(control);
 
         matrixAdjacencia.addActionListener(listener);
         borrarPuntos.addActionListener(listener);
-        colorear.addActionListener(listener);
-
+        
         int x = 200;
         int y = 10;
 
@@ -63,7 +61,6 @@ public class Window extends JFrame {
         add(borrarPuntos);
         borrarPuntos.setBounds(300 + x, 20 + y, 150, 40);
         //  add(colorear);
-        colorear.setBounds(500 + x, 20 + y, 150, 40);
         add(caja);
         caja.setBounds(40, 70 + y, 400, 400);
         addMatrix(0);
@@ -78,7 +75,7 @@ public class Window extends JFrame {
         this.panel_matriz = new JPanel();
         this.panel_matriz.setBackground(Color.white);
         this.panel_matriz.setLayout(null);
-        this.panel_matriz.setPreferredSize(new Dimension(20 + calcular_tamaño_matriz(), 20 + calcular_tamaño_matriz()));
+        this.panel_matriz.setPreferredSize(new Dimension(20 + getSizeMatriz(), 20 + getSizeMatriz()));
 
         this.matriz_grafo = new JRadioButton[vertices][vertices];
         for (int i = 0; i < vertices; i++) {
@@ -116,17 +113,14 @@ public class Window extends JFrame {
         this.scroll_matriz.updateUI();
     }
 
-    public JButton getMatrixAdjacencia() {
+    public JButton getAdjacencyMatriz() {
         return matrixAdjacencia;
     }
 
-    public JButton getBorrarPuntos() {
+    public JButton getEraseNodes() {
         return borrarPuntos;
     }
 
-    public JButton getColorear() {
-        return colorear;
-    }
 
     private int getCenter() {
         int numVertices = this.control.getNode().size();
@@ -137,7 +131,7 @@ public class Window extends JFrame {
         return ((400 - (numVertices * 40)) / 2);
     }
     
-    private int calcular_tamaño_matriz() {
+    private int getSizeMatriz() {
         int numVertices = this.control.getNode().size();
         if ((numVertices * 40) <= 480) {
             return 480;
