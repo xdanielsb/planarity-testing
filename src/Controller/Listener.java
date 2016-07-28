@@ -18,18 +18,20 @@ import java.util.ArrayList;
 public class Listener implements ActionListener {
 
     private Window window;
+    private Control control;
 
     public Listener(Window window) {
         this.window = window;
+        this.control = window.getControl();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == window.getBorrarPuntos()) {
-            window.getControl().setNodos(new ArrayList<Node>());
-            window.getControl().setRectas(new ArrayList<Straight>());
-            window.getControl().setIntersections(new ArrayList<Node>());
+            control.setNodos(new ArrayList<Node>());
+            control.setRectas(new ArrayList<Straight>());
+            control.setIntersections(new ArrayList<Node>());
             window.getComponent().repaint();
             window.addMatrix(0);
         } else if (e.getSource() == window.getMatrixAdjacencia()) {
@@ -37,6 +39,7 @@ public class Listener implements ActionListener {
         } else {
             int cant_vertices = window.getControl().getNode().size();
             System.out.println("num Vertices " + cant_vertices);
+            //Help me to know what raddio button has been clicked
             for (int i = 0; i < cant_vertices; i++) {
                 for (int j = 0; j < cant_vertices; j++) {
                     if (j != i) {
@@ -54,41 +57,40 @@ public class Listener implements ActionListener {
         }
     }
 
+    /**
+     * This method color the planes of the graph
+     */
     public void colorGraph() {
-        int cant_vertices = window.getControl().getNode().size();
-        window.getControl().setIntersections(new ArrayList<Node>());
+        int numEdges = control.getNode().size();
+        control.setIntersections(new ArrayList<Node>());
         boolean[][] mat = window.createMatrix();
         Node origen;
         Node destino;
-
-        window.getControl().showNode();
-        window.getControl().setRectas(new ArrayList<Straight>());
+        control.showNode();
+        control.setRectas(new ArrayList<Straight>());
         ArrayList<Straight> rectas = new ArrayList<>();
-        boolean t = false;
-        for (int i = 0; i < cant_vertices; i++) {
-            origen = window.getControl().getNode(i);
+        boolean collideStraights = false;
+        for (int i = 0; i < numEdges; i++) {
+            origen = control.getNode(i);
             ArrayList<Node> conectados = new ArrayList<>();
-            for (int j = 0; j < cant_vertices; j++) {
+            for (int j = 0; j < numEdges; j++) {
                 if (mat[i][j] && i < j) {
-                    System.out.println(i + " " + j + " " + mat[i][j]);
-                    destino = window.getControl().getNode(j);
+                    destino = control.getNode(j);
                     conectados.add(destino);
                     origen.setLinkedNodes(conectados);
                     rectas.add(new Straight(origen, destino, window.getControl()));
                 }
             }
-            window.getControl().setRectas(rectas);
-            window.getControl().showStraights();
-            t = window.getControl().straightCollide();
-            System.out.println(t);
-        }
-
+            control.setRectas(rectas);
+            control.showStraights();
+            collideStraights = control.straightCollide();
+        };
+        
         //Si no chocan las rectas
-        if (!t) {
+        if (!collideStraights) {
             window.getControl().setIntersections(new ArrayList<Node>());
             window.getControl().getPoligonos();
-        }
-        System.out.println("");
+        }        
         window.getComponent().repaint();
     }
 

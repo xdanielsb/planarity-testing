@@ -5,18 +5,10 @@
  */
 package Controller;
 
-import Logic.Node;
-import Logic.Polygon;
-import Logic.Straight;
+import Logic.*;
 import View.Window;
-import findCiclos.Ciclos_elementales;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Arrays;
+import findCiclos.*;
+import java.util.*;
 
 /**
  *
@@ -40,50 +32,25 @@ public class Control {
         window = new Window(this);
     }
 
-   /**
-    * Get the Nodo based on its id
-    * @param id
-    * @return 
-    */
+    /**
+     * Get the Nodo based on its id
+     *
+     * @param id
+     * @return
+     */
     public Node getNode(int id) {
         Node get = null;
-        for (int i = 0; i < nodes.size(); i++) {
-            Node n = nodes.get(i);
-            if (n.getId() == id) {
-                get = n;
+        for (Node node : nodes) {
+            if (node.getId() == id) {
+                get = node;
             }
         }
         return get;
     }
 
     /**
-     * Show  the nodes of the graph
-     */
-    public void showNode() {
-        for (int i = 0; i < nodes.size(); i++) {
-            nodes.get(i).getId();
-            System.out.println("id: " + nodes.get(i).getId());
-        }
-    }
-    /**
-     * Show the straight of the graph
-     */
-    public void showStraights() {
-        for (int i = 0; i < straights.size(); i++) {
-            System.out.println(straights.get(i).getOrigin().getId() + " " + straights.get(i).getDestination().getId());
-        }
-    }
-    
-    /**
-     * 
-     * @param intersecciones 
-     */
-    public void setIntersections(ArrayList<Node> intersecciones) {
-        this.intersections = intersecciones;
-    }
-
-    /**
      * This method help me to know wheter straights collide
+     *
      * @return bool
      */
     public boolean straightCollide() {
@@ -103,7 +70,8 @@ public class Control {
 
     /**
      * Get the poligonos of the graph
-     * @return 
+     *
+     * @return
      */
     public ArrayList<Polygon> getPoligonos() {
         ArrayList<Node> nodos = window.getControl().getNode();
@@ -125,8 +93,9 @@ public class Control {
 
     /**
      * Create the poligonos based on the cycles of the graph
+     *
      * @param inicio
-     * @param recorridos 
+     * @param recorridos
      */
     public void createPolygon(Node inicio, ArrayList<Node> recorridos) {
         getCycles(window.createMatrix(), getNodes());
@@ -134,8 +103,9 @@ public class Control {
 
     /**
      * Get cycles of the graph based on its adjcency matrix
+     *
      * @param adjMatrix
-     * @param nodes 
+     * @param nodes
      */
     public void getCycles(boolean adjMatrix[][], String nodes[]) {
         ArrayList<Integer[]> elementos = new ArrayList<>();
@@ -161,7 +131,6 @@ public class Control {
             }
         }
 
-
         iterate();
         iterateOrderlyPoligons();
         iterate();
@@ -180,6 +149,7 @@ public class Control {
         }
 
     }
+
     /**
      * Iterate over the polygons
      */
@@ -197,8 +167,7 @@ public class Control {
     }
 
     /**
-     * Iterate over the polygons for removing the composed 
-     * Polygons
+     * Iterate over the polygons for removing the composed Polygons
      */
     public void iterateOrderlyPoligons() {
         Set set = hashCicles.entrySet();
@@ -237,7 +206,8 @@ public class Control {
 
     /**
      * Get Nodes of the graph
-     * @return nodes 
+     *
+     * @return nodes
      */
     public String[] getNodes() {
         String nodes[] = new String[this.nodes.size()];
@@ -246,10 +216,11 @@ public class Control {
         }
         return nodes;
     }
-    
+
     /**
      * Get the sides of the Poligon
-     * @return 
+     *
+     * @return
      */
     public ArrayList<Polygon> getSidesPolinomio() {
         ArrayList<Polygon> poligonos = new ArrayList<>();
@@ -264,7 +235,7 @@ public class Control {
         }
         return poligonos;
     }
-    
+
     public ArrayList<Node> getNode() {
         return nodes;
     }
@@ -272,11 +243,29 @@ public class Control {
     public void setNodos(ArrayList<Node> nodos) {
         this.nodes = nodos;
     }
-    
+
     /**
-     * Get Straight of the graph
-     * @return 
+     * Show the nodes of the graph
      */
+    public void showNode() {
+        for (Node node : nodes) {
+            System.out.println("id: " + node.getId());
+        }
+    }
+
+    /**
+     * Show the straight of the graph
+     */
+    public void showStraights() {
+        for (Straight straight : straights) {
+            System.out.println(straight.getOrigin().getId() + " " + straight.getDestination().getId());
+        }
+    }
+
+    public void setIntersections(ArrayList<Node> intersecciones) {
+        this.intersections = intersecciones;
+    }
+
     public ArrayList<Straight> getStraights() {
         return straights;
     }

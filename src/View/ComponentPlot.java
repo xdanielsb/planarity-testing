@@ -118,13 +118,11 @@ public class ComponentPlot extends JComponent implements MouseListener {
 
         ArrayList<Polygon> inter = control.getSidesPolinomio();
         for (int i = 0; i < inter.size(); i++) {
-            Random r = new Random();
-            
+            Random r = new Random();    
             int R = (int) (Math.random() * 256);
             int G = (int) (Math.random() * 256);
             int B = (int) (Math.random() * 256);
             Color myNewBlue = new Color(R, G, B,170);//*(i+1)%256);
-
             g.setColor(myNewBlue);
             Integer[] nodes = inter.get(i).getPoligono();
             int tam = nodes.length;
@@ -140,9 +138,12 @@ public class ComponentPlot extends JComponent implements MouseListener {
             g.drawPolygon(x, y, tam);
             g.fillPolygon(x, y, tam);
         }
-
     }
 
+    /**
+     * Method that happens when the mouse have been clicked
+     * @param e 
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         System.out.println(e.getX() + " " + e.getY());
@@ -153,21 +154,21 @@ public class ComponentPlot extends JComponent implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        //     System.out.println(e.getX()+ " "+e.getY());
+        
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        //    System.out.println(e.getX()+ " "+e.getY());
+        
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        //    System.out.println(e.getX()+ " "+e.getY());
+        
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        //   System.out.println(e.getX()+ " "+e.getY());
+        
     }
 }
