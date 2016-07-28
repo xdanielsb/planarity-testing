@@ -1,7 +1,10 @@
 package findCiclos;
 
 import java.util.Vector;
-
+/**
+ * 
+ * @author Frank Meyer
+ */
 public class Connectados {
 
     private int[][] adjListOriginal = null;

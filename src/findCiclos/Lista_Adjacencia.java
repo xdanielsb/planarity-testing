@@ -1,7 +1,10 @@
 package findCiclos;
 
 import java.util.Vector;
-
+/**
+ * 
+ * @author Frank Meyer
+ */
 public class Lista_Adjacencia {
 
     public static int[][] get_lista_adjacencia(boolean[][] adjacencyMatrix) {

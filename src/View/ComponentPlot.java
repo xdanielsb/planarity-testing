@@ -17,10 +17,9 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JComponent;
-
 /**
  *
- * @author daniel
+ * @author Daniel Santos
  */
 public class ComponentPlot extends JComponent implements MouseListener {
 

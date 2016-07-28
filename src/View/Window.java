@@ -19,7 +19,7 @@ import javax.swing.SwingConstants;
 
 /**
  *
- * @author daniel
+ * @author Daniel Santos
  */
 public class Window extends JFrame {
 

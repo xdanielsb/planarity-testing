@@ -1,7 +1,7 @@
 import Controller.Control;
 /**
  *
- * @author daniel
+ * @author Daniel Santos
  */
 public class Launcher {
 

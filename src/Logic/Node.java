@@ -6,10 +6,9 @@
 package Logic;
 
 import java.util.ArrayList;
-
 /**
  *
- * @author daniel fernando santos bustos
+ * @author Daniel Santos
  */
 public class Node {
     private int id;

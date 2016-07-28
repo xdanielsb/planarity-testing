@@ -18,10 +18,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Arrays;
 
-
 /**
  *
- * @author daniel fernando santos bustos
+ * @author Daniel Santos
  */
 public class Control {
 

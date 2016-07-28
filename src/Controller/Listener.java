@@ -11,10 +11,9 @@ import View.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 /**
  *
- * @author daniel
+ * @author Daniel Santos
  */
 public class Listener implements ActionListener {
 

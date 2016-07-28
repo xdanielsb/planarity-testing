@@ -2,7 +2,10 @@ package findCiclos;
 
 import java.util.List;
 import java.util.Vector;
-
+/**
+ * 
+ * @author Frank Meyer
+ */
 public class Ciclos_elementales {
 
     private List ciclos = null;

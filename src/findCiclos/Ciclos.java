@@ -4,6 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
+/**
+ * 
+ * @author Frank Meyer
+ */
 public class Ciclos {
 
     private Set id = null;
