@@ -23,7 +23,7 @@ $ java filename
 ```sh
 $ git clone https://github.com/xdanielsb/Planaritytesting-Java.git
 $ cd Planaritytesting-Java/src
-$ javac Launcher
+$ javac Launcher.java
 $ java Launcher
 
 ```
